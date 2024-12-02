@@ -63,7 +63,7 @@ Calculate similarity:   O(n)
 
 ```bash
 1. Clone the repo               |   git clone
-2. Navigate into day1 folder    |   cd day01/src
-3. Compile & run the code       |   g++ main.cpp -o main && main.exe # Or whatever compiler you prefer
+2. Navigate into todays folder  |   cd day<x>/src
+3. Compile & run the code       |   g++ main.cpp -o main && main.exe # Or whatever compiler you use
 ```
 
