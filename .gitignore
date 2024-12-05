@@ -76,3 +76,6 @@ rust-project.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/c++,visualstudiocode,rust,rust-analyzer
+
+# Ignore input.txt file
+*.txt
