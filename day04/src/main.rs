@@ -9,15 +9,9 @@ struct Position {
 }
 
 fn main() -> io::Result<()> {
-    let start = Instant::now();
-
     let filename = "src/input.txt";
-
-    let duration = start.elapsed();
-    println!("Time elapsed - Loading File: {:?}", duration);
-
     let start = Instant::now();
-
+    
     match read_file(filename) {
         Ok(lines) => {
             println!("Result: {}", word_occurrence(lines, "XMAS"));

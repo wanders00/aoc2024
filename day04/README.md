@@ -10,10 +10,6 @@ I am bad at rust, do not look too much into the code...
 
 However, I am still quite happy with my solutions. At least for part 1. Part 2 had a bit more icky solution, but it works and I am happy enough with it.
 
-### Reading the input
-
-- Time elapsed: 100ns
-
 ### Part 1
 
 #### Textual explanation:
