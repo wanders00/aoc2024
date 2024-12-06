@@ -1,4 +1,4 @@
-# Day 3
+# Day 4
 
 Link to the problem on the Advent of Code website - [click me](https://adventofcode.com/2024/day/4)
 
