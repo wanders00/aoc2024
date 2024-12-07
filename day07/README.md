@@ -14,7 +14,7 @@ Part 2 was basically the same as part1, just needed to add one more recursive ca
 
 - Part 1: 9.1988ms
 
-- Part 2: 9.807ms
+- Part 2: 1.939339s
 
 ## How to run
 

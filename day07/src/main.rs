@@ -9,20 +9,23 @@ fn main() {
         Ok(lines) => {
             let start = Instant::now();
             for line in &lines {
-                let numbers = string_to_numbers(&line);
+                let numbers = string_to_numbers(line);
                 result += solve(&numbers, numbers[1], 1, false);
             }
             let duration = start.elapsed();
             println!("Time elapsed - Part 1: {:?}", duration);
+            println!("Result - Part 1: {}", result);
 
             let start = Instant::now();
+            result = 0;
 
             for line in &lines {
-                let numbers = string_to_numbers(&line);
-                result += solve(&numbers, numbers[1], 1, false);
+                let numbers = string_to_numbers(line);
+                result += solve(&numbers, numbers[1], 1, true);
             }
             let duration = start.elapsed();
             println!("Time elapsed - Part 2: {:?}", duration);
+            println!("Result - Part 2: {}", result);
         }
         Err(e) => eprintln!("Failed to read file: {}", e),
     }
