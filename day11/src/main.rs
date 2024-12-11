@@ -17,12 +17,16 @@ fn main() {
     println!("Time elapsed - Reading File: {:?}", start.elapsed());
 
     let start = Instant::now();
-    println!("Result - Part 1: {}", solve(content, 25));
-    println!("Time elapsed - Part 1: {:?}", start.elapsed());
+    let result = solve(content, 25);
+    let duration = start.elapsed();
+    println!("Result - Part 1: {}", result);
+    println!("Time elapsed - Part 1: {:?}", duration);
 
     let start = Instant::now();
-    println!("Result - Part 2: {}", solve(content2, 75));
-    println!("Time elapsed - Part 2: {:?}", start.elapsed());
+    let result = solve(content2, 75);
+    let duration = start.elapsed();
+    println!("Result - Part 2: {}", result);
+    println!("Time elapsed - Part 2: {:?}", duration);
 }
 
 fn solve(mut content: HashMap<i64, isize>, iteration: usize) -> isize {
