@@ -92,3 +92,17 @@ fn read_file(filename: &str) -> io::Result<HashMap<i64, isize>> {
         }
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_solve() {
+        let mut input = HashMap::new();
+        input.insert(125, 1);
+        input.insert(17, 1);
+        assert_eq!(solve(input.clone(), 6), 22);
+        assert_eq!(solve(input, 25), 55312);
+    }
+}
