@@ -20,7 +20,7 @@ const DIRECTIONS: [Direction; 4] = [
 
 fn main() {
     let start = Instant::now();
-    let filename = "src/test.txt";
+    let filename = "src/input.txt";
     let content = match read_file(filename) {
         Ok(input) => input,
         Err(e) => {
@@ -34,31 +34,56 @@ fn main() {
 
     let start = Instant::now();
 
-    let part1_result = solve(&content, recursion_part1);
+    let part1_result = solve_part1(&content);
     let duration = start.elapsed();
     println!("Result - Part 1: {}", part1_result);
     println!("Time Elapsed - Part1: {:?}", duration);
 
     let start = Instant::now();
 
-    let part2_result = solve(&content, recursion_part2);
+    let part2_result = solve_part2(&content);
     let duration = start.elapsed();
     println!("Result - Part 2: {}", part2_result);
     println!("Time Elapsed - Part2: {:?}", duration);
 }
 
-fn solve<F>(grid: &Vec<Vec<char>>, recursion_fn: F) -> usize
-where
-    F: Fn(char, usize, usize, &mut usize, &Vec<Vec<char>>, &mut HashSet<(usize, usize)>) -> usize,
-{
+fn solve_part1(grid: &Vec<Vec<char>>) -> usize {
     let mut total_cost = 0;
     let mut visited: HashSet<(usize, usize)> = HashSet::new();
 
     for (y, line) in grid.iter().enumerate() {
         for (x, &c) in line.iter().enumerate() {
             let mut size = 0;
-            let cost = recursion_fn(c, y, x, &mut size, grid, &mut visited);
+            let cost = recursion_part1(c, y, x, &mut size, grid, &mut visited);
             total_cost += cost * size;
+        }
+    }
+    return total_cost;
+}
+
+fn solve_part2(grid: &Vec<Vec<char>>) -> usize {
+    let mut total_cost = 0;
+    let mut visited: HashSet<(usize, usize)> = HashSet::new();
+
+    for (y, line) in grid.iter().enumerate() {
+        for (x, &c) in line.iter().enumerate() {
+            let mut perimeter: HashSet<(isize, isize, Direction)> = HashSet::new();
+            let mut size = 0;
+            recursion_part2(c, y, x, &mut size, grid, &mut visited, &mut perimeter);
+            let mut delete = Vec::new();
+            for entry in &perimeter {
+                if perimeter.contains(&(entry.0, entry.1 + 1, entry.2)) {
+                    delete.push(*entry);
+                }
+
+                if perimeter.contains(&(entry.0 + 1, entry.1, entry.2)) {
+                    delete.push(*entry);
+                }
+            }
+            for entry in delete {
+                perimeter.remove(&entry);
+            }
+            total_cost += perimeter.len() * size;
         }
     }
     return total_cost;
@@ -112,14 +137,14 @@ fn recursion_part2(
     size: &mut usize,
     grid: &Vec<Vec<char>>,
     visited: &mut HashSet<(usize, usize)>,
-) -> usize {
+    perimeter: &mut HashSet<(isize, isize, Direction)>,
+) {
     if visited.contains(&(y, x)) {
-        return 0;
+        return;
     }
 
     visited.insert((y, x));
 
-    let mut cost = 0;
     *size += 1;
 
     for &d in &DIRECTIONS {
@@ -127,19 +152,23 @@ fn recursion_part2(
 
         if let Some(next_c) = get_char_at_position(&grid, new_pos) {
             if c == next_c {
-                cost += recursion_part2(
+                recursion_part2(
                     c,
                     new_pos.0 as usize,
                     new_pos.1 as usize,
                     size,
                     grid,
                     visited,
+                    perimeter,
                 );
+            } else {
+                perimeter.insert((new_pos.0, new_pos.1, d));
             }
+        } else {
+            perimeter.insert((new_pos.0, new_pos.1, d));
         }
     }
-
-    return cost;
+    return;
 }
 
 fn move_position(pos: (isize, isize), dir: Direction) -> (isize, isize) {
@@ -210,7 +239,7 @@ mod tests {
         ];
 
         let input: Vec<Vec<char>> = input.into_iter().map(|s| s.chars().collect()).collect();
-        assert_eq!(solve(&input, recursion_part1), 1930);
+        assert_eq!(solve_part1(&input), 1930);
     }
 
     #[test]
@@ -229,6 +258,6 @@ mod tests {
         ];
 
         let input: Vec<Vec<char>> = input.into_iter().map(|s| s.chars().collect()).collect();
-        assert_eq!(solve(&input, recursion_part2), 1206);
+        assert_eq!(solve_part2(&input), 1206);
     }
 }
